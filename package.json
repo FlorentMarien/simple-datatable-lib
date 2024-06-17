@@ -1,19 +1,23 @@
 {
   "name": "simple-datatable-lib",
-  "version": "0.1.0",
+  "version": "0.1.5",
   "private": false,
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "react-router-dom": "^6.23.1",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-scripts": "5.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "publish:npm": "rm -rf dist && mkdir dist &&  babel src -d dist --copy-files"
   },
   "eslintConfig": {
     "extends": [
@@ -34,9 +38,7 @@
     ]
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "react-scripts": "5.0.1"
+    "@babel/core": "^7.24.7"
+    
   }
 }

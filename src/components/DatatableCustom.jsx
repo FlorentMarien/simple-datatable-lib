@@ -1,7 +1,9 @@
 import './../styles/Input.css';
 import './../styles/DatatableCustom.css';
+import React from 'react';
 import { useState } from 'react';
-import LoopIcon from './../assets/icon/loop-svgrepo-com.svg';
+
+import LoopIcon from './../../src/assets/icon/loop-svgrepo-com.svg';
 import DropdownCustom from './DropdownCustom';
 import {InputTextCustom,InputTextCustomGlobal} from './InputTextCustom';
 export function ColumnCustom(props) {
@@ -18,7 +20,6 @@ function arrowActive(e){
 }
 function CelCustom(props){
     let view;
-    console.log(props)
     if(props.dataType === "string" ) view = (<div className='table-td'><p>{props.value}</p></div>);
     if(props.dataType === "date" ) view = (<div className='table-td'><p>{new Date(props.value).toLocaleDateString(props.formatdateType === undefined ? "en-US" : props.formatdateType)}</p></div>);
     return ( view )
@@ -80,21 +81,20 @@ export function DatatableCustom(props) {
         let field = column.props.field;
         obj = {
             ...obj,
-            [field]: column.props['dataType'] === undefined ? 'string' : column.props['dataType'],
+            [field]: column.props['dataType'] === 'date' ? {type:column.props['dataType'],formatdateType:column.props['formatdateType']} :  {type:'string'} ,
         }
     })
-
     let x = 0;
+    
     props.data.forEach((e)=>{
         filterForm.push({...e});
         Object.keys(e).forEach((efield)=>{
-            if(obj[efield] === "date" && isNaN(e[efield])){
+            if(obj[efield].type === "date" && isNaN(e[efield])){
                 filterForm[x][efield] = new Date(e[efield]);
             }
         });
         x++;
     });
-
     let [listUser,setlistUser] = useState(filterForm);
     let [Search,SetSearch] = useState({});
     let [StatePaginator,SetStatePaginator] = useState({viewPage: 0,arrayPaginator: props.paginator === undefined ? [10] : props.paginator,focusPaginator: props.paginator === undefined ? 10 : props.paginator[0]});
@@ -104,27 +104,30 @@ export function DatatableCustom(props) {
             if(Search["searchGlobal"] !== undefined)
             {
                 let incr = 0;
-                Object.keys(dataelement).forEach((e)=>{ 
-                    if(obj[e] === 'string') if(dataelement[e].includes(Search["searchGlobal"])) incr +=1 ;
-                    if(obj[e] === 'date' ) {
-                        if(dataelement[e].toLocaleDateString("fr-Fr").includes(Search["searchGlobal"])) incr +=1 ;
+                Object.keys(dataelement).forEach((e)=>{
+
+                    if(obj[e].type === 'string') if(dataelement[e].includes(Search["searchGlobal"])) incr +=1 ;
+                    if(obj[e].type === 'date' ) {
+                        if(dataelement[e].toLocaleDateString(obj[e].formatdateType).includes(Search["searchGlobal"])) incr +=1 ;
                     }
                 });
                 if(incr > 0) elementSearch += 1;
             }
-            Object.keys(Search).forEach((e)=>{ 
+            Object.keys(Search).forEach((e)=>{
                 if(e !== 'searchGlobal'){
-                    if(obj[e] === 'string') if(dataelement[e].includes(Search[e])) elementSearch +=1;
-                    if(obj[e] === 'date') {
-                        if(dataelement[e].toLocaleDateString("fr-Fr").includes(Search[e])) elementSearch +=1 ;
+                    if(obj[e].type === 'string') if( dataelement[e].includes(Search[e])) elementSearch +=1;
+                    if(obj[e].type === 'date') {
+                        if(dataelement[e].toLocaleDateString(obj[e].formatdateType).includes(Search[e])) elementSearch +=1 ;
                     }
                     
                 }
             });
             if(Object.values(Search).length === 0 || Object.values(Search).length <= elementSearch){
+
                 let line= (
                     <>
                         {props.children.map( x => { 
+                            
                             let obj = {
                                 columName:x.props.field,
                                 value:dataelement[x.props.field],
@@ -132,8 +135,9 @@ export function DatatableCustom(props) {
                             };
                             if(x.props.dataType === 'date') obj = {
                                 ...obj,
-                                formatdateType: props.formatdateType === undefined ? "en-US" : props.formatdateType,
+                                formatdateType: x.props.formatdateType === undefined ? "en-US" : x.props.formatdateType,
                             }
+                            
                             return CelCustom(obj);
                             })
                         }
