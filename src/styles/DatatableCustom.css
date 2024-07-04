@@ -51,6 +51,7 @@ td input{
     flex-direction: column;
     align-items: center;
     flex-basis: 100%;
+    text-align: center;
 }
 .table-td input{
     width: 100%;
@@ -224,14 +225,11 @@ p{
     font-size: 12px;
     color: #464F60;
 }
-.button-add{
+.container-searchglobal-addelement{
     display: flex;
-    justify-content: center;
-    text-align: center;
-    width: 20px;
-    height: 20px;
+    justify-content: end;
+    align-items: center;
 }
-.button-add > img{
-    width: 20px;
-    height: 13px;
+.border-radius{
+    border-radius: 10px;
 }

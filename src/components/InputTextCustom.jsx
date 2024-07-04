@@ -1,5 +1,5 @@
 import React from 'react';
-import LoopIcon from './../../src/assets/icon/loop-svgrepo-com.svg';
+import LoopIcon from './../assets/icon/loop-svgrepo-com.svg';
 
 export function InputTextCustom( props ) {
     return (
