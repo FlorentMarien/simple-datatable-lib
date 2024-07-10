@@ -87,7 +87,7 @@ export function DatatableCustom(props) {
     let [Search,SetSearch] = useState({});
     let [StatePaginator,SetStatePaginator] = useState({viewPage: 0,arrayPaginator: props.paginator === undefined ? [10] : props.paginator,focusPaginator: props.paginator === undefined ? 10 : props.paginator[0]});
     let [filterOrder,setfilterOrder] = useState({});
-    
+    console.log(filterOrder);
     //init
     let filterForm = [];
     let obj = {};
@@ -127,8 +127,8 @@ export function DatatableCustom(props) {
     });
     
     if(filterOrder !== null){
-        if(filterOrder.order === "asc") filterForm.sort((a,b) => a[filterOrder.field] < b[filterOrder.field]);
-        if(filterOrder.order === "desc") filterForm.sort((a,b) => a[filterOrder.field] > b[filterOrder.field]);
+        if(filterOrder.order === "asc") filterForm.sort(function(a,b) { return a[filterOrder.field] < b[filterOrder.field] ? -1 : 1});
+        if(filterOrder.order === "desc") filterForm.sort(function(a,b) { return a[filterOrder.field] > b[filterOrder.field] ? -1 : 1});
     }
 
     listUser = [...filterForm];
@@ -267,21 +267,10 @@ function FooterCustom(props, statepaginator, nbrelementinview){
     )
 }
 function FilterColumnDesc(obj){
-    /*
-    let defaultState = {...obj.state.listUser};
-    let listUser = [...defaultState[0]];
-    let field = obj.field;
-    defaultState[1]([...listUser.sort((a,b) => a[field] < b[field])]);*/
-
     let filterOrder = obj.state.filterOrder;
     filterOrder[1]({order:"desc",field:obj.field});
 }
 function FilterColumnAscend(obj){
-    /*let defaultState = {...obj.state.listUser};
-    let listUser = [...defaultState[0]];
-    let field = obj.field;
-    defaultState[1]([...listUser.sort((a,b) => a[field] > b[field])]);*/
-    
     let filterOrder = obj.state.filterOrder;
     filterOrder[1]({order:"asc",field:obj.field});
 }
