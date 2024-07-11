@@ -41,21 +41,7 @@ function HeaderCustom(props, state){
                 props.addElement !== undefined && props.addElement
             }
             </div>
-            <div className='table-thead'>
-                {
-                    props.children.map( x => {
-                    return ( 
-                        <div className='table-td' key={"td-search-"+x.props.field}>
-                            { 
-                                x.props.search === true &&
-                                    <InputTextCustom key={"search-"+x.props.field} className="input-search-min" placeholder="Search ?" onChange={(e)=>{
-                                        state.statepaginator[1]({...state.statepaginator[0],viewPage:0});state.Search[1](  { ...state.Search[0], [x.props.field]: e.target.value}  )
-                                    }} />
-                            }
-                        </div> 
-                    )})
-                }
-            </div>
+            
         </div>
         : <div className='table-header border-radius'><div className='table-thead'><div className='table-td'><p>Aucune colonne n'a été ajouté</p></div></div></div>
         }
@@ -181,6 +167,21 @@ export function DatatableCustom(props) {
             {
             children.length > 0 &&
             <div className='table-data'>
+                <div className='table-thead'>
+                {
+                    props.children.map( x => {
+                    return ( 
+                        <div className='table-td' key={"td-search-"+x.props.field}>
+                            { 
+                                x.props.search === true &&
+                                    <InputTextCustom key={"search-"+x.props.field} className="input-search-min" placeholder="Search ?" onChange={(e)=>{
+                                        SetStatePaginator({...StatePaginator,viewPage:0});SetSearch(  { ...Search, [x.props.field]: e.target.value}  )
+                                    }} />
+                            }
+                        </div> 
+                    )})
+                }
+                </div>
                 <div className='table-thead thead-field'>
                 {
                     props.children.map( x => {
