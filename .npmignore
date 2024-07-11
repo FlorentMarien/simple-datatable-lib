@@ -9,3 +9,6 @@ README.md
 .npmignore
 src/stories
 *.log
+
+/dist/stories
+/dist/examples

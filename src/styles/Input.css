@@ -1,6 +1,8 @@
 label{
-    font-weight: bolder;
-    margin-bottom: 5px;
+    color: white;
+    font-size: 12px;
+    font-weight: normal;
+    margin: 0;
 }
 label + input{
     margin-top: 5;
@@ -78,4 +80,7 @@ input[type='submit']{
 .button-add p{
     margin: 0;
     color:#A1A9B8;
+}
+.--none{
+    display: none;
 }

@@ -9,7 +9,7 @@ function Datatable() {
     let data = [{name:"John",lastname:"Doe",country:"US",birthdate:"1977-07-17T13:50:04.114Z",birthdatefr:"1977-07-17T13:50:04.114Z"},{name:"Azerty",lastname:"Doe",country:"US",birthdate:"1983-03-28T22:21:55.201Z",birthdatefr:"1983-03-28T22:21:55.201Z"},{name:"John",lastname:"Doe",country:"US",birthdate:"1994-02-05T15:47:52.395Z",birthdatefr:"1994-02-05T15:47:52.395Z"}]
     let buttonAdd = (
         <div className='container-button'>
-            <img src={iconAdd} />
+            <img src={iconAdd} alt="add button"/>
             <button className="button-add" onClick={(e)=>{ navigate("/addElement") }}>
                 <p>Ajouter</p>
             </button>

@@ -243,7 +243,7 @@ function FooterCustom(props, statepaginator, nbrelementinview){
                 {
                     <>
                     <div>
-                        <p>Element(s) par page:</p>
+                        <label for={document.getElementsByTagName("select").length === undefined ? "datatable-select-pagination-1" : "datatable-select-pagination-"+parseInt(document.getElementsByTagName("select").length+1)}>Element(s) par page:</label>
                         {
                             <DropdownCustom data={{list:returnnbrpagination,selectedIndex:statepaginator[0].arrayPaginator.indexOf(statepaginator[0].focusPaginator)}} onChange={(e) => { statepaginator[1]({...statepaginator[0],focusPaginator: parseInt(e.value),viewPage:0}) }}/>
                          } 
