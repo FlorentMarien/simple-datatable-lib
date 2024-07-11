@@ -21,7 +21,7 @@ function DropDownCustom( props ) {
             <select id={document.getElementsByTagName("select").length === undefined ? "datatable-select-pagination-1" : "datatable-select-pagination-"+document.getElementsByTagName("select").length} onChange={(e) => Clicklisthandle(e)} value={DropValue.value}>
             {    
                 data.list.map((element) =>
-                <option value={element.value}>{ element.label === undefined ? element.value : element.label}</option>
+                <option key={element.value} value={element.value}>{ element.label === undefined ? element.value : element.label}</option>
             )}
             </select>
             }

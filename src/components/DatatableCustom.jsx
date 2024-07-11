@@ -19,8 +19,8 @@ function arrowActive(e){
 }
 function CelCustom(props){
     let view;
-    if(props.dataType === "string" ) view = (<div className='table-td'><p>{props.value}</p></div>);
-    if(props.dataType === "date" ) view = (<div className='table-td'><p>{new Date(props.value).toLocaleDateString(props.formatdateType)}</p></div>);
+    if(props.dataType === "string" ) view = (<div key={props.key} className='table-td'><p>{props.value}</p></div>);
+    if(props.dataType === "date" ) view = (<div key={props.key} className='table-td'><p>{new Date(props.value).toLocaleDateString(props.formatdateType)}</p></div>);
     return ( view )
 }
 function HeaderCustom(props, state){
@@ -32,7 +32,7 @@ function HeaderCustom(props, state){
             <div className='container-searchglobal-addelement'>
             {
                 props.searchGlobal === true &&
-                <InputTextCustomGlobal placeholder="SearchGlobal" onChange={(e) => { 
+                <InputTextCustomGlobal key="search-global" placeholder="SearchGlobal" onChange={(e) => { 
                     state.statepaginator[1]({...state.statepaginator[0],viewPage:0});
                     state.Search[1]({ ...state.Search[0], ["searchGlobal"]: e.target.value})
                 }} />
@@ -45,10 +45,10 @@ function HeaderCustom(props, state){
                 {
                     props.children.map( x => {
                     return ( 
-                        <div className='table-td'>
+                        <div className='table-td' key={"td-search-"+x.props.field}>
                             { 
                                 x.props.search === true &&
-                                    <InputTextCustom className="input-search-min" placeholder="Search ?" onChange={(e)=>{
+                                    <InputTextCustom key={"search-"+x.props.field} className="input-search-min" placeholder="Search ?" onChange={(e)=>{
                                         state.statepaginator[1]({...state.statepaginator[0],viewPage:0});state.Search[1](  { ...state.Search[0], [x.props.field]: e.target.value}  )
                                     }} />
                             }
@@ -60,7 +60,7 @@ function HeaderCustom(props, state){
                 {
                     props.children.map( x => {
                     return ( 
-                        <div className='table-td'>
+                        <div className='table-td' key={"td-category-"+x.props.field}>
                         
                             <div>
                             <p className='p-field-category'>{x.props.field}</p>
@@ -87,7 +87,6 @@ export function DatatableCustom(props) {
     let [Search,SetSearch] = useState({});
     let [StatePaginator,SetStatePaginator] = useState({viewPage: 0,arrayPaginator: props.paginator === undefined ? [10] : props.paginator,focusPaginator: props.paginator === undefined ? 10 : props.paginator[0]});
     let [filterOrder,setfilterOrder] = useState({});
-    console.log(filterOrder);
     //init
     let filterForm = [];
     let obj = {};
@@ -136,7 +135,7 @@ export function DatatableCustom(props) {
     //refresh
     if(props.paginator !== undefined ) if(props.paginator !== StatePaginator.arrayPaginator) StatePaginator = {...StatePaginator,arrayPaginator:props.paginator,focusPaginator:props.paginator[0]};
     //
-
+    let indexLine = -1;
     let returnlistUser = listUser.map(dataelement => {
             let elementSearch = 0;
             if(Search["searchGlobal"] !== undefined)
@@ -163,14 +162,15 @@ export function DatatableCustom(props) {
                 }
             });
             if(Object.values(Search).length === 0 || Object.values(Search).length <= elementSearch){
-
+                indexLine++;
                 let line= (
                     <>
-                        {children.map( x => { 
+                        {children.map( x => {
                             let localobj = {
                                 columName:x.props.field,
                                 value:dataelement[x.props.field],
                                 dataType:x.props.dataType === undefined ? "string" : x.props.dataType,
+                                key: "line-"+indexLine+"-cel-"+x.props.field,
                             };
                             if(x.props.dataType === 'date') localobj = {
                                 ...localobj,
@@ -182,9 +182,10 @@ export function DatatableCustom(props) {
                         }
                     </>
                 );
-                if(line.props.children !== undefined ) line = (<div className="table-tr">{line}</div>);
+                if(line.props.children !== undefined ) line = (<div key={"line-"+indexLine} className="table-tr">{line}</div>);
                 return line;
             }
+            
     });
     let returntampon = [];
     returnlistUser.forEach((e)=>{
@@ -243,9 +244,9 @@ function FooterCustom(props, statepaginator, nbrelementinview){
                 {
                     <>
                     <div>
-                        <label for={document.getElementsByTagName("select").length === undefined ? "datatable-select-pagination-1" : "datatable-select-pagination-"+parseInt(document.getElementsByTagName("select").length+1)}>Element(s) par page:</label>
+                        <label htmlFor={document.getElementsByTagName("select").length === undefined ? "datatable-select-pagination-1" : "datatable-select-pagination-"+parseInt(document.getElementsByTagName("select").length+1)}>Element(s) par page:</label>
                         {
-                            <DropdownCustom data={{list:returnnbrpagination,selectedIndex:statepaginator[0].arrayPaginator.indexOf(statepaginator[0].focusPaginator)}} onChange={(e) => { statepaginator[1]({...statepaginator[0],focusPaginator: parseInt(e.value),viewPage:0}) }}/>
+                            <DropdownCustom key="dropdown-paginator" data={{list:returnnbrpagination,selectedIndex:statepaginator[0].arrayPaginator.indexOf(statepaginator[0].focusPaginator)}} onChange={(e) => { statepaginator[1]({...statepaginator[0],focusPaginator: parseInt(e.value),viewPage:0}) }}/>
                          } 
                     </div>
                     <div>
