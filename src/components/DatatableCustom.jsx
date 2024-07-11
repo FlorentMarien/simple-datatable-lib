@@ -56,26 +56,6 @@ function HeaderCustom(props, state){
                     )})
                 }
             </div>
-            <div className='table-thead thead-field'>
-                {
-                    props.children.map( x => {
-                    return ( 
-                        <div className='table-td' key={"td-category-"+x.props.field}>
-                        
-                            <div>
-                            <p className='p-field-category'>{x.props.field}</p>
-                            {
-                                x.props.sortable === true &&
-                                <div>
-                                    <div className='arrow-up' onClick={(e)=>{arrowActive(e);FilterColumnAscend({field: x.props.field, dataType: x.props.dataType === undefined ? "string" : x.props.dataType, state:state})}} name="Filter list ascending"/>
-                                    <div className='arrow-down' onClick={(e)=>{arrowActive(e);FilterColumnDesc({field: x.props.field, dataType: x.props.dataType === undefined ? "string" : x.props.dataType, state:state,})}} name="Filter list descending"/>
-                                </div>
-                            }
-                            </div>
-                        </div> 
-                    )})
-                }
-            </div>
         </div>
         : <div className='table-header border-radius'><div className='table-thead'><div className='table-td'><p>Aucune colonne n'a été ajouté</p></div></div></div>
         }
@@ -201,6 +181,26 @@ export function DatatableCustom(props) {
             {
             children.length > 0 &&
             <div className='table-data'>
+                <div className='table-thead thead-field'>
+                {
+                    props.children.map( x => {
+                    return ( 
+                        <div className='table-td' key={"td-category-"+x.props.field}>
+                        
+                            <div>
+                            <p className='p-field-category'>{x.props.field}</p>
+                            {
+                                x.props.sortable === true &&
+                                <div>
+                                    <div className='arrow-up' onClick={(e)=>{arrowActive(e);FilterColumnAscend({field: x.props.field, dataType: x.props.dataType === undefined ? "string" : x.props.dataType, state:{filterOrder:[filterOrder,setfilterOrder]}})}} name="Filter list ascending"/>
+                                    <div className='arrow-down' onClick={(e)=>{arrowActive(e);FilterColumnDesc({field: x.props.field, dataType: x.props.dataType === undefined ? "string" : x.props.dataType, state:{filterOrder:[filterOrder,setfilterOrder]},})}} name="Filter list descending"/>
+                                </div>
+                            }
+                            </div>
+                        </div> 
+                    )})
+                }
+                </div>
                 {returnlistUser.map((e)=>{ if((iteration < (StatePaginator.focusPaginator*(StatePaginator.viewPage+1))) && (iteration >= (StatePaginator.focusPaginator*StatePaginator.viewPage))){ 
                     iteration++;
                     return e;
