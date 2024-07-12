@@ -19,8 +19,8 @@ function arrowActive(e){
 }
 function CelCustom(props){
     let view;
-    if(props.dataType === "string" ) view = (<div key={props.key} className='table-td'><p>{props.value}</p></div>);
-    if(props.dataType === "date" ) view = (<div key={props.key} className='table-td'><p>{new Date(props.value).toLocaleDateString(props.formatdateType)}</p></div>);
+    if(props.dataType === "string" ) view = (<div className='table-td'><p>{props.value}</p></div>);
+    if(props.dataType === "date" ) view = (<div className='table-td'><p>{new Date(props.value).toLocaleDateString(props.formatdateType)}</p></div>);
     return ( view )
 }
 function HeaderCustom(props, state){
@@ -34,8 +34,10 @@ function HeaderCustom(props, state){
                 {
                     props.searchGlobal === true &&
                     <InputTextCustomGlobal key="search-global" placeholder="SearchGlobal" onChange={(e) => { 
+                        let tampon = {...state.Search[0],["searchGlobal"]: e.target.value};
+                        if(e.target.value==="") delete tampon["searchGlobal"];
                         state.statepaginator[1]({...state.statepaginator[0],viewPage:0});
-                        state.Search[1]({ ...state.Search[0], ["searchGlobal"]: e.target.value})
+                        state.Search[1]({ ...tampon})            
                     }} />
                 }
                 {
@@ -105,6 +107,7 @@ export function DatatableCustom(props) {
     let indexLine = -1;
     let returnlistUser;
     if(Object.keys(Search).length > 0){ returnlistUser = listUser.map(dataelement => {
+            
             let tampon = undefined;
             let incr = 0;
             if(Search["searchGlobal"] !== undefined)
@@ -141,33 +144,37 @@ export function DatatableCustom(props) {
     children.forEach((e)=>{
         if(e.props.search === true) activelementsearch+=1;
     })
+    let column = -1;
     let datatable = (
         <>
-        {
-        returnlistUser.length > 0 ?
-        <div id={props.id !== undefined && props.id} className='datatable'>
+       
+        <div key="datatable" id={props.id !== undefined && props.id} className='datatable'>
             {HeaderCustom({...props,children:children}, {listUser:[listUser,setlistUser],Search:[Search,SetSearch],statepaginator:[StatePaginator,SetStatePaginator],filterOrder:[filterOrder,setfilterOrder]})}
             {
-                
-                
-                <div className='table-data'>
+                <div key="table-data" className='table-data'>
                 {children.map((x)=>{
                     let iteration = -1;
-                    return (<>
-                    <div>
+                    column += 1;
+                    return (
+                    <div key={"table-data-"+column}>
                         {
                         activelementsearch > 0 &&
-                        <div className='table-thead'>
+                        <div key={"table-thead-"+column} className='table-thead'>
                             {x.props.search === true ?
-                                <InputTextCustom key={"search-"+x.props.field} className="input-search-min" placeholder="Search ?" onChange={(e)=>{
-                                        SetStatePaginator({...StatePaginator,viewPage:0});SetSearch(  { ...Search, [x.props.field]: e.target.value}  )
+                                <InputTextCustom key={"searcho-"+x.props.field} className="input-search-min" placeholder="Search ?" onChange={(e)=>{
+                                        let tampon = {...Search,[x.props.field]: e.target.value};
+                                        if(e.target.value==="") delete tampon[x.props.field];
+                                        SetStatePaginator({...StatePaginator,viewPage:0});
+                                        SetSearch(  { ...tampon})
                                 }}/>
-                            : <div className='emptySearch'></div>
+                            : <div key={"table-thead-"+column} className='emptySearch'></div>
                             }
                         </div>
                         }
+                        { 
+                        <>
                         <div className='table-thead thead-field'>
-                            <p className='p-field-category'>{x.props.field}</p>
+                            <p>{x.props.field}</p>
                             {x.props.sortable === true &&
                                 <div>
                                     <div className='arrow-up' onClick={(e)=>{arrowActive(e);FilterColumnAscend({field: x.props.field, dataType: x.props.dataType === undefined ? "string" : x.props.dataType, state:{filterOrder:[filterOrder,setfilterOrder]}})}} name="Filter list ascending"/>
@@ -177,23 +184,27 @@ export function DatatableCustom(props) {
                         </div>
                         <div className='table-data-container'>
                         {
-                        returnlistUser.map((e)=>{
-                        iteration++;
-                        if(iteration >= StatePaginator.focusPaginator*StatePaginator.viewPage && iteration < StatePaginator.focusPaginator*(StatePaginator.viewPage+1)){
-                            if(e[x.props.field] !== undefined && obj[x.props.field].type === "string") return (<div><p>{e[x.props.field]}</p></div>)
-                            if(e[x.props.field] !== undefined && obj[x.props.field].type === "date") return (<div><p>{e[x.props.field].toLocaleDateString(obj[x.props.field].formatdateType)}</p></div>)
-                        }
-                        })}
+                            returnlistUser.map((e)=>{
+                            iteration++;
+                            if(iteration >= StatePaginator.focusPaginator*StatePaginator.viewPage && iteration < StatePaginator.focusPaginator*(StatePaginator.viewPage+1)){
+                                if(e[x.props.field] !== undefined && obj[x.props.field].type === "string") return (<div key={'data-'+x.props.field+"-"+iteration}><p key={'data-'+x.props.field+"-"+iteration+"-p"}>{e[x.props.field]}</p></div>)
+                                if(e[x.props.field] !== undefined && obj[x.props.field].type === "date") return (<div key={'data'+x.props.field+"-"+iteration}><p key={'data-'+x.props.field+"-"+iteration+"-p"}>{e[x.props.field].toLocaleDateString(obj[x.props.field].formatdateType)}</p></div>)
+                            }
+                            })}
                         </div>
+                        </>
+                        }
                     </div>
-                    </>)
+                    )
                 })}
                 </div>
             }
+
+            {
+            returnlistUser.length === 0 && <div className='datatable-error --noradius'><p>Aucune données</p></div>
+            }
             {FooterCustom({...props,children:children}, [StatePaginator,SetStatePaginator], returnlistUser.length)}
         </div>
-        : <div className='datatable-error'><p>Aucune données</p></div>
-        }
         </>
      );
     return (

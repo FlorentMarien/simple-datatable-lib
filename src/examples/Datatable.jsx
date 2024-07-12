@@ -23,11 +23,6 @@ function Datatable() {
             <ColumnCustom field="country"></ColumnCustom>
             <ColumnCustom field="birthdate" dataType="date" formatdateType="en-US" sortable search></ColumnCustom>
             <ColumnCustom field="birthdatefr" dataType="date" formatdateType="fr-FR" sortable search></ColumnCustom>
-            <ColumnCustom field="name" sortable search></ColumnCustom>
-            <ColumnCustom field="lastname" ></ColumnCustom>
-            <ColumnCustom field="country"></ColumnCustom>
-            <ColumnCustom field="birthdate" dataType="date" formatdateType="en-US" sortable search></ColumnCustom>
-            <ColumnCustom field="birthdatefr" dataType="date" formatdateType="fr-FR" sortable search></ColumnCustom>
             
         </DatatableCustom>
         </>
