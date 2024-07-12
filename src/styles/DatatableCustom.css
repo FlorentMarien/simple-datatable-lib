@@ -309,3 +309,9 @@ p{
     border-radius: 10px;
     text-align: center;
 }
+.table-data p{
+    text-wrap: nowrap;
+    max-width: 100vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
