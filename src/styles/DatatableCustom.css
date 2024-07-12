@@ -1,15 +1,21 @@
 #datatable{
     color:black;
-    overflow: hidden;
     border-radius: 0.375rem;
     /*border: 1px solid rgb(31 41 55 );
     box-shadow: rgba(161, 169, 184,0.75) 0px 5px 15px;*/
     width: 100%;
+    background-color: rgb(31 41 55 );
 }
 .table-header{
     display: flex;
   flex-direction: column;
   justify-content: space-evenly;
+  overflow: scroll;
+  padding: 10px;
+  border-bottom:1px solid rgb(75 85 99);
+}
+.container-searchglobal-addelement{
+    min-width: 285px
 }
 .table-header,.table-footer{
     background-color: rgb(31 41 55 );
@@ -39,8 +45,9 @@ td input{
     width: 100%;
 }
 .table-thead,.table-tr{
-    display: inline-flex;
+    display: flex;
     justify-content: space-between;
+    width: fit-content;
 }
 .table-thead .table-td div div img{ 
     width: 15px;
@@ -50,7 +57,6 @@ td input{
     display: flex;
     flex-direction: column;
     align-items: center;
-    flex-basis: 100%;
     text-align: center;
 }
 .table-td input{
@@ -64,17 +70,17 @@ td input{
     min-height: 15%;
     height: 15%;
 }
+/*
 .table-data{
     min-height: 80%;
     height: 80%;
     overflow: scroll;
-    
     background-color: rgb(31 41 55 );
-    
-}
+}*/
 .table-footer{
     min-height: 5%;
     height: 5%;
+    overflow: scroll;
 }
 
 .table-icon{
@@ -105,9 +111,16 @@ td input{
 .table-footer .table-td div + div img{
     margin: 2.5px;
 }
-.table-data .table-tr:nth-child(2n-1){
+.table-data-container div:nth-child(2n-1){
     background-color: rgb(17 24 39 );
-    
+}
+.table-footer > .table-td{
+    text-align: left;
+}
+.table-footer > .table-td + .table-td{
+    min-width: 205px;
+}
+.table-header{
 }
 .table-td{
     overflow: hidden;
@@ -115,10 +128,7 @@ td input{
     min-width: 150px;
 }
 .table-td p{
-    overflow: hidden;
-    text-overflow: ellipsis;
     width: 100%;
-    white-space: nowrap;
     color: white;
 }
 .table-icon + p{
@@ -139,21 +149,23 @@ td input{
     justify-content: center;
     align-items: center;
 }
-.table-thead .table-td div div{
+.table-thead p + div{
     display: flex;
     flex-direction: column;
     width: 15px;
     height: 25px;
 }
-.table-thead .table-td div div .arrow-up{
+.table-thead div .arrow-up{
     background-color: #868FA0;
     -webkit-mask: url("./../assets/icon/caret-up-solid.svg") no-repeat top;
     mask: url("./../assets/icon/caret-up-solid.svg") no-repeat top;
+    height: 12.5px;
 }
-.table-thead .table-td div div .arrow-down{
+.table-thead div .arrow-down{
     background-color: #868FA0;
     -webkit-mask: url("./../assets/icon/caret-down-solid.svg") no-repeat center;
     mask: url("./../assets/icon/caret-down-solid.svg") no-repeat center;
+    height: 12.5px;
 }
 .table-footer .table-td div .arrow-left{
     background-color: #868FA0;
@@ -223,7 +235,7 @@ td input{
 }
 p{
     font-size: 12px;
-    color: #464F60;
+    color: white;
 }
 .container-searchglobal-addelement{
     display: flex;
@@ -233,6 +245,67 @@ p{
 .border-radius{
     border-radius: 10px;
 }
+
+
+/*
+
+*/
+.table-thead{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.table-thead + div{
+    text-align: center;
+}
+.input-search-min input{
+    width: 150px;
+}
+.table-data > div{
+    flex-grow: 1;
+}
+.emptySearch{
+    height: 30px;
+}
+.container-searchglobal-addelement > .table-thead{
+    width: auto
+}
+.table-thead{
+    padding-left: 10px;
+    padding-right: 10px;
+    width: auto;
+}
 .table-data{
+    display: flex;
     overflow: scroll;
+    background-color: rgb(31 41 55);
+}
+.table-header + .table-data{
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+}
+.table-data{
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+.thead-field{
+    padding-bottom: 10px;
+}
+
+.table-data-container div p{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin: 0;
+}
+.table-thead{
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.datatable-error{
+    background-color: rgb(31 41 55);
+    margin: 0;
+    padding: 10px;
+    border-radius: 10px;
+    text-align: center;
 }

@@ -28,21 +28,22 @@ function HeaderCustom(props, state){
         <>
         { 
         props.children.length > 0 ?
-        <div className='table-header'>
-            <div className='container-searchglobal-addelement'>
-            {
-                props.searchGlobal === true &&
-                <InputTextCustomGlobal key="search-global" placeholder="SearchGlobal" onChange={(e) => { 
-                    state.statepaginator[1]({...state.statepaginator[0],viewPage:0});
-                    state.Search[1]({ ...state.Search[0], ["searchGlobal"]: e.target.value})
-                }} />
-            }
-            {
-                props.addElement !== undefined && props.addElement
-            }
+            (props.searchGlobal === true || props.addElement !== undefined) &&
+            <div className='table-header'>
+                <div className='container-searchglobal-addelement'>
+                {
+                    props.searchGlobal === true &&
+                    <InputTextCustomGlobal key="search-global" placeholder="SearchGlobal" onChange={(e) => { 
+                        state.statepaginator[1]({...state.statepaginator[0],viewPage:0});
+                        state.Search[1]({ ...state.Search[0], ["searchGlobal"]: e.target.value})
+                    }} />
+                }
+                {
+                    props.addElement !== undefined && props.addElement
+                }
+                </div>
             </div>
             
-        </div>
         : <div className='table-header border-radius'><div className='table-thead'><div className='table-td'><p>Aucune colonne n'a été ajouté</p></div></div></div>
         }
         </>
@@ -102,117 +103,97 @@ export function DatatableCustom(props) {
     if(props.paginator !== undefined ) if(props.paginator !== StatePaginator.arrayPaginator) StatePaginator = {...StatePaginator,arrayPaginator:props.paginator,focusPaginator:props.paginator[0]};
     //
     let indexLine = -1;
-    let returnlistUser = listUser.map(dataelement => {
-            let elementSearch = 0;
+    let returnlistUser;
+    if(Object.keys(Search).length > 0){ returnlistUser = listUser.map(dataelement => {
+            let tampon = undefined;
+            let incr = 0;
             if(Search["searchGlobal"] !== undefined)
             {
-                let incr = 0;
                 Object.keys(dataelement).forEach((e)=>{
                     if(obj[e] !== undefined){
-                        if(obj[e].type === 'string') if(dataelement[e].includes(Search["searchGlobal"])) incr +=1 ;
+                        if(obj[e].type === 'string') if(dataelement[e].includes(Search["searchGlobal"])) incr+=1;
                         if(obj[e].type === 'date' ) {
-                            if(dataelement[e].toLocaleDateString(obj[e].formatdateType).includes(Search["searchGlobal"])) incr +=1 ;
+                            if(dataelement[e].toLocaleDateString(obj[e].formatdateType).includes(Search["searchGlobal"])) incr+=1;
                         }
                     }
                 });
-                if(incr > 0) elementSearch += 1;
             }
             Object.keys(Search).forEach((e)=>{
                 if(e !== 'searchGlobal'){
                     if(obj[e] !== undefined){
-                        if(obj[e].type === 'string') if( dataelement[e].includes(Search[e])) elementSearch +=1;
+                        if(obj[e].type === 'string') if( dataelement[e].includes(Search[e])) incr+=1;
                         if(obj[e].type === 'date') {
-                            if(dataelement[e].toLocaleDateString(obj[e].formatdateType).includes(Search[e])) elementSearch +=1 ;
+                            if(dataelement[e].toLocaleDateString(obj[e].formatdateType).includes(Search[e])) incr+=1;
                         }
                     }
                 }
             });
-            if(Object.values(Search).length === 0 || Object.values(Search).length <= elementSearch){
-                indexLine++;
-                let line= (
-                    <>
-                        {children.map( x => {
-                            let localobj = {
-                                columName:x.props.field,
-                                value:dataelement[x.props.field],
-                                dataType:x.props.dataType === undefined ? "string" : x.props.dataType,
-                                key: "line-"+indexLine+"-cel-"+x.props.field,
-                            };
-                            if(x.props.dataType === 'date') localobj = {
-                                ...localobj,
-                                formatdateType: obj[x.props.field].formatdateType,
-                            }
-                            
-                            return CelCustom(localobj);
-                            })
-                        }
-                    </>
-                );
-                if(line.props.children !== undefined ) line = (<div key={"line-"+indexLine} className="table-tr">{line}</div>);
-                return line;
-            }
-            
-    });
+            if(Object.keys(Search).length <= incr) return dataelement;
+    })}else returnlistUser = listUser;
     let returntampon = [];
+    
     returnlistUser.forEach((e)=>{
         if(e !== undefined) returntampon.push(e);
     })
-
     returnlistUser = returntampon;
-    let iteration = 0;
+
+    let activelementsearch = 0;
+    children.forEach((e)=>{
+        if(e.props.search === true) activelementsearch+=1;
+    })
     let datatable = (
         <>
-        <div id={props.id !== undefined && props.id} className='datatable'> 
+        {
+        returnlistUser.length > 0 ?
+        <div id={props.id !== undefined && props.id} className='datatable'>
             {HeaderCustom({...props,children:children}, {listUser:[listUser,setlistUser],Search:[Search,SetSearch],statepaginator:[StatePaginator,SetStatePaginator],filterOrder:[filterOrder,setfilterOrder]})}
             {
-            children.length > 0 &&
-            <div className='table-data'>
-                <div className='table-thead'>
-                {
-                    props.children.map( x => {
-                    return ( 
-                        <div className='table-td' key={"td-search-"+x.props.field}>
-                            { 
-                                x.props.search === true &&
-                                    <InputTextCustom key={"search-"+x.props.field} className="input-search-min" placeholder="Search ?" onChange={(e)=>{
+                
+                
+                <div className='table-data'>
+                {children.map((x)=>{
+                    let iteration = -1;
+                    return (<>
+                    <div>
+                        {
+                        activelementsearch > 0 &&
+                        <div className='table-thead'>
+                            {x.props.search === true ?
+                                <InputTextCustom key={"search-"+x.props.field} className="input-search-min" placeholder="Search ?" onChange={(e)=>{
                                         SetStatePaginator({...StatePaginator,viewPage:0});SetSearch(  { ...Search, [x.props.field]: e.target.value}  )
-                                    }} />
+                                }}/>
+                            : <div className='emptySearch'></div>
                             }
-                        </div> 
-                    )})
-                }
-                </div>
-                <div className='table-thead thead-field'>
-                {
-                    props.children.map( x => {
-                    return ( 
-                        <div className='table-td' key={"td-category-"+x.props.field}>
-                        
-                            <div>
+                        </div>
+                        }
+                        <div className='table-thead thead-field'>
                             <p className='p-field-category'>{x.props.field}</p>
-                            {
-                                x.props.sortable === true &&
+                            {x.props.sortable === true &&
                                 <div>
                                     <div className='arrow-up' onClick={(e)=>{arrowActive(e);FilterColumnAscend({field: x.props.field, dataType: x.props.dataType === undefined ? "string" : x.props.dataType, state:{filterOrder:[filterOrder,setfilterOrder]}})}} name="Filter list ascending"/>
                                     <div className='arrow-down' onClick={(e)=>{arrowActive(e);FilterColumnDesc({field: x.props.field, dataType: x.props.dataType === undefined ? "string" : x.props.dataType, state:{filterOrder:[filterOrder,setfilterOrder]},})}} name="Filter list descending"/>
-                                </div>
+                                </div> 
                             }
-                            </div>
-                        </div> 
-                    )})
-                }
-                </div>
-                {returnlistUser.map((e)=>{ if((iteration < (StatePaginator.focusPaginator*(StatePaginator.viewPage+1))) && (iteration >= (StatePaginator.focusPaginator*StatePaginator.viewPage))){ 
-                    iteration++;
-                    return e;
-                    } else{ iteration++; }
+                        </div>
+                        <div className='table-data-container'>
+                        {
+                        returnlistUser.map((e)=>{
+                        iteration++;
+                        if(iteration >= StatePaginator.focusPaginator*StatePaginator.viewPage && iteration < StatePaginator.focusPaginator*(StatePaginator.viewPage+1)){
+                            if(e[x.props.field] !== undefined && obj[x.props.field].type === "string") return (<div><p>{e[x.props.field]}</p></div>)
+                            if(e[x.props.field] !== undefined && obj[x.props.field].type === "date") return (<div><p>{e[x.props.field].toLocaleDateString(obj[x.props.field].formatdateType)}</p></div>)
+                        }
+                        })}
+                        </div>
+                    </div>
+                    </>)
                 })}
-                {(returnlistUser.length === 0) ? Object.values(Search).length > 0 ? <p className='msg-nocontent'>Aucun élément ne correspond à votre recherche</p> : <p className='msg-nocontent'>Aucune données détectées</p> : null }
-            </div>
+                </div>
             }
             {FooterCustom({...props,children:children}, [StatePaginator,SetStatePaginator], returnlistUser.length)}
         </div>
-        
+        : <div className='datatable-error'><p>Aucune données</p></div>
+        }
         </>
      );
     return (
