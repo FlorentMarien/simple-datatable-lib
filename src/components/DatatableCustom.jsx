@@ -46,7 +46,7 @@ function HeaderCustom(props, state){
                 </div>
             </div>
             
-        : <div className='table-header border-radius'><div className='table-thead'><div className='table-td'><p>Aucune colonne n'a été ajouté</p></div></div></div>
+        : <div className='table-header --noradius'><div className='table-thead'><div className='table-td'><p>Aucune colonne n'a été ajouté</p></div></div></div>
         }
         </>
     );
