@@ -207,6 +207,10 @@ td input{
     justify-content: center;
     align-items: center;
 }
+.table-footer > div:last-child p{
+    min-width: 50px;
+    text-align: center;
+}
 
 .table-thead .table-td div div div:hover, .table-footer .table-td div div div:hover{
     background-color: black;
