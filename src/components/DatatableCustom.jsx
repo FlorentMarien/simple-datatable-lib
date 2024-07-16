@@ -240,20 +240,21 @@ function FooterCustom(props, statepaginator, nbrelementinview){
                             <DropdownCustom key="dropdown-paginator" data={{list:returnnbrpagination,selectedIndex:statepaginator[0].arrayPaginator.indexOf(statepaginator[0].focusPaginator)}} onChange={(e) => { statepaginator[1]({...statepaginator[0],focusPaginator: parseInt(e.value),viewPage:0}) }}/>
                          } 
                     </div>
-                    <div>
-                        <div className='table-icon'>
-                            <div className='arrow-left' onClick={(e)=>{ statepaginator[1]({...statepaginator[0],viewPage: (statepaginator[0].viewPage-1) < 0  ? nbrpage-1 : statepaginator[0].viewPage-1}) }}/>
-                        </div>
-                        <p><a className='focus-page'>{statepaginator[0].viewPage+1}</a>/{nbrpage}</p>
-                        <div className='table-icon'>
-                            <div className='arrow-right' onClick={(e)=>{ statepaginator[1]({...statepaginator[0],viewPage: (statepaginator[0].viewPage+1) >= nbrpage ? 0 : statepaginator[0].viewPage+1}) }}/>
-                        </div>
-                    </div>
+                   
                     
                     </>
                 }
             </div>
-        </div>
+            <div >
+                <div className='table-icon'>
+                    <div className='arrow-left' onClick={(e)=>{ statepaginator[1]({...statepaginator[0],viewPage: (statepaginator[0].viewPage-1) < 0  ? nbrpage-1 : statepaginator[0].viewPage-1}) }}/>
+                </div>
+                <p><a className='focus-page'>{statepaginator[0].viewPage+1}</a>/{nbrpage}</p>
+                <div className='table-icon'>
+                    <div className='arrow-right' onClick={(e)=>{ statepaginator[1]({...statepaginator[0],viewPage: (statepaginator[0].viewPage+1) >= nbrpage ? 0 : statepaginator[0].viewPage+1}) }}/>
+                    </div>
+                </div>
+            </div>
         }
         </>
     )

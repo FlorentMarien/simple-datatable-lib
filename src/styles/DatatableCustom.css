@@ -126,10 +126,13 @@ td input{
 .table-footer > .table-td{
     text-align: left;
 }
-.table-footer > .table-td + .table-td{
-    min-width: 205px;
+.table-footer .table-td > div{
+    min-width: 110px;
 }
-.table-header{
+.table-footer .table-td div label{
+    text-wrap: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .table-td{
     overflow: hidden;
@@ -139,6 +142,10 @@ td input{
 .table-td p{
     width: 100%;
     color: white;
+    text-wrap: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+
 }
 .table-icon + p{
     width: auto;
@@ -176,16 +183,31 @@ td input{
     mask: url("./../assets/icon/caret-down-solid.svg") no-repeat center;
     height: 12.5px;
 }
-.table-footer .table-td div .arrow-left{
+.table-footer div div .arrow-left{
     background-color: #868FA0;
     -webkit-mask: url("./../assets/icon/caret-left-solid.svg") no-repeat center;
     mask: url("./../assets/icon/caret-left-solid.svg") no-repeat center;
+    width: 20px;
+    height: 13px;
 }
-.table-footer .table-td div .arrow-right{
+.table-footer div div .arrow-right{
     background-color: #868FA0;
     -webkit-mask: url("./../assets/icon/caret-right-solid.svg") no-repeat center;
     mask: url("./../assets/icon/caret-right-solid.svg") no-repeat center;
+    width: 20px;
+    height: 13px;
 }
+.table-footer div div.table-icon{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.table-footer > div:last-child{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .table-thead .table-td div div div:hover, .table-footer .table-td div div div:hover{
     background-color: black;
 }
