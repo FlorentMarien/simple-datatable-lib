@@ -211,6 +211,10 @@ td input{
     min-width: 50px;
     text-align: center;
 }
+.table-footer > div:first-child{
+    width: 100px;
+    text-align: left;
+}
 
 .table-thead .table-td div div div:hover, .table-footer .table-td div div div:hover{
     background-color: black;
@@ -228,8 +232,11 @@ td input{
 .table-footer .table-td{
     min-width: 0;
 }
-.table-footer > .table-td{
-    min-width: 60px;
+.table-footer > div:first-child{
+    min-width: 90px;
+}
+.table-footer > div:nth-child(2){
+    min-width: 140px;
 }
 .table-header > .table-thead > .input-search{
     margin: 2px;
