@@ -188,7 +188,12 @@ td input{
     margin: 0;
 }
 .table-footer .table-td + .table-td div + div{
-    margin-left: 20px;
+}
+.table-footer .table-td{
+    min-width: 0;
+}
+.table-footer > .table-td{
+    min-width: 60px;
 }
 .table-header > .table-thead > .input-search{
     margin: 2px;
@@ -321,6 +326,9 @@ p{
 }
 .table-header, .table-footer{
     flex: 0 0 auto;
+}
+.table-footer .table-td{
+    min-width: none;
 }
 /*.datatable > .table-data{
     border-top-left-radius: 10px;
