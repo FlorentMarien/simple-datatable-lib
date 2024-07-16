@@ -62,7 +62,6 @@ export function DatatableCustom(props) {
     let obj = {};
     let children = (props.children === undefined) ? [] : props.children.length > 1 ? [...props.children]:[props.children];
     let propsdata = props.data === undefined ? [] : [...props.data];
-
     children.forEach((column)=>{
         let field = column.props.field;
         let formatdateType = "en-US";
@@ -109,18 +108,19 @@ export function DatatableCustom(props) {
     let returnlistUser;
     if(Object.keys(Search).length > 0){ returnlistUser = listUser.map(dataelement => {
             
-            let tampon = undefined;
+            let add = false;
             let incr = 0;
             if(Search["searchGlobal"] !== undefined)
             {
                 Object.keys(dataelement).forEach((e)=>{
                     if(obj[e] !== undefined){
-                        if(obj[e].type === 'string') if(dataelement[e].includes(Search["searchGlobal"])) incr+=1;
+                        if(obj[e].type === 'string') if(dataelement[e].includes(Search["searchGlobal"])) add=true;
                         if(obj[e].type === 'date' ) {
-                            if(dataelement[e].toLocaleDateString(obj[e].formatdateType).includes(Search["searchGlobal"])) incr+=1;
+                            if(dataelement[e].toLocaleDateString(obj[e].formatdateType).includes(Search["searchGlobal"])) add=true;
                         }
                     }
                 });
+                if(add === true ) incr +=1;
             }
             Object.keys(Search).forEach((e)=>{
                 if(e !== 'searchGlobal'){
@@ -147,12 +147,10 @@ export function DatatableCustom(props) {
     })
     let column = -1;
     let datatable = (
-        <>
-       
         <div key="datatable" id={props.id !== undefined && props.id} className='datatable'>
             {HeaderCustom({...props,children:children}, {listUser:[listUser,setlistUser],Search:[Search,SetSearch],statepaginator:[StatePaginator,SetStatePaginator],filterOrder:[filterOrder,setfilterOrder]})}
             {
-                <div key="table-data" className='table-data'>
+                <div key="table-data" className={returnlistUser.length === 0 ? 'table-data --nodata' : 'table-data'}>
                 {children.map((x)=>{
                     let iteration = -1;
                     column += 1;
@@ -206,7 +204,6 @@ export function DatatableCustom(props) {
             }
             {FooterCustom({...props,children:children}, [StatePaginator,SetStatePaginator], returnlistUser.length)}
         </div>
-        </>
      );
     return (
         <>
