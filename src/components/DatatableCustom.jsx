@@ -28,8 +28,9 @@ function HeaderCustom(props, state){
         <>
         { 
         props.children.length > 0 ?
-            (props.searchGlobal === true || props.addElement !== undefined) &&
-            <div className='table-header'>
+            ((props.searchGlobal === false || props.searchGlobal == undefined) && props.addElement === undefined) ?
+            <></>
+            : <div className='table-header'>
                 <div className='container-searchglobal-addelement'>
                 {
                     props.searchGlobal === true &&

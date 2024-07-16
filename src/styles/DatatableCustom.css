@@ -220,7 +220,7 @@ td input{
   left: 5px;
 }
 .input-search input{
-    width: 200px;
+    /*width: 200px;*/
     padding: 5px;
     padding-left: 5px;
     padding-left: 30px;
@@ -230,7 +230,7 @@ td input{
     box-sizing: border-box;
 }
 .input-search-min input{
-    width: 100%;
+    /*width: 100%;*/
 }
 p{
     font-size: 12px;
@@ -260,10 +260,12 @@ p{
     text-align: center;
 }
 .input-search-min input{
-    width: 150px;
+    /*width: 150px;*/
 }
 .table-data > div{
-    flex-grow: 1;
+    flex: 1 1 0;
+    /*OVERFLOW: scroll;*/
+    min-width: 100px;
 }
 .emptySearch{
     height: 30px;
@@ -291,16 +293,15 @@ p{
 }
 .thead-field{
     padding-bottom: 10px;
+    padding-top: 10px;
 }
 
 .table-data-container div p{
     padding-top: 10px;
     padding-bottom: 10px;
     margin: 0;
-}
-.table-thead{
-    padding-top: 10px;
-    padding-bottom: 10px;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 .datatable-error{
     background-color: rgb(31 41 55);
@@ -318,3 +319,11 @@ p{
 .--noradius{
     border-radius: 0;
 }
+.table-header, .table-footer{
+    flex: 0 0 auto;
+}
+/*.datatable > .table-data{
+    border-top-left-radius: 10px;
+
+    border-top-right-radius: 10px;
+}*/
