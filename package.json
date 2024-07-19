@@ -1,7 +1,11 @@
 {
   "name": "simple-datatable-lib",
-  "version": "0.3.5",
+  "version": "0.3.7",
   "private": false,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/FlorentMarien/simple-datatable-lib.git"
+  },
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
